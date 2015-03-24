@@ -1,0 +1,10 @@
+{application, soxe, [
+    {description, "SOX Erlang Library"},
+    {vsn, git},
+    {registered, []},
+    {applications, [
+        kernel,
+        stdlib
+    ]},
+    {env, []}
+]}.
