@@ -73,10 +73,42 @@ static ERL_NIF_TERM soxe_convert(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     return enif_make_atom(env, "ok");
 }
 
+static ERL_NIF_TERM soxe_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
+    char filename[MAX_STRING_SIZE];
+    sox_format_t *in;
+    int duration = 0;
+
+    if (argc != 1) {
+        return enif_make_badarg(env);
+    }
+
+    enif_get_string(env, argv[0], filename, MAX_STRING_SIZE, ERL_NIF_LATIN1);
+    in = sox_open_read(filename, NULL, NULL, NULL);
+    if (!in) {
+        /* FIXME: change this to another kind of error */
+        return enif_make_badarg(env);
+    }
+
+    duration = (in->signal.length / in->signal.channels) / in->signal.rate;
+
+    return enif_make_tuple8(env,
+        enif_make_atom(env, "soxe_info"),
+        enif_make_string(env, filename, ERL_NIF_LATIN1),
+        enif_make_int(env, in->signal.rate),
+        enif_make_int(env, in->signal.channels),
+        enif_make_string(env, sox_encodings_info[in->encoding.encoding].name,
+            ERL_NIF_LATIN1),
+        enif_make_int(env, in->encoding.encoding),
+        enif_make_int(env, in->signal.length),
+        enif_make_int(env, duration)
+    );
+}
+
 static ErlNifFunc nif_funcs[] = {
     {"start", 0, soxe_start},
     {"stop", 0, soxe_stop},
-    {"convert", 2, soxe_convert}
+    {"convert", 2, soxe_convert},
+    {"info", 1, soxe_info}
 };
 
 ERL_NIF_INIT(soxe, nif_funcs, NULL, NULL, NULL, NULL)

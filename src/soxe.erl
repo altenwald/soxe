@@ -1,6 +1,8 @@
 -module(soxe).
--export([start/0, stop/0, convert/2]).
+-export([start/0, stop/0, convert/2, info/1]).
 -on_load(init/0).
+
+-include("soxe.hrl").
 
 init() ->
     ok = erlang:load_nif("priv/soxe_drv", 0).
@@ -12,4 +14,7 @@ stop() ->
     exit(nif_library_not_loaded).
 
 convert(_Src, _Dst) ->
+    exit(nif_library_not_loaded).
+
+info(_Filename) ->
     exit(nif_library_not_loaded).
