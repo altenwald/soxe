@@ -4,8 +4,24 @@
 
 -include("soxe.hrl").
 
+load_path(File) ->
+    MapFilter = fun(Ebin) ->
+        Priv = filename:absname(Ebin) ++ "/../priv/",
+        case file:read_file_info(Priv ++ File ++ ".so") of
+            {ok, _} -> {true, Priv ++ File};
+            _ -> false
+        end
+    end,
+    case lists:zf(MapFilter, code:get_path()) of
+    [Dir|_] ->
+        erlang:load_nif(Dir, 0);
+    [] ->
+        error_logger:format("Error: ~s not found in code path\n", [File]),
+        throw(enoent)
+    end.
+
 init() ->
-    ok = erlang:load_nif("priv/soxe_drv", 0).
+    ok = load_path("soxe_drv").
 
 start() ->
     exit(nif_library_not_loaded).
