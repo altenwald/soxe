@@ -2,3 +2,5 @@ ebin/
 audio.*
 *.o
 *.so
+c_src/soxe.d
+_build/

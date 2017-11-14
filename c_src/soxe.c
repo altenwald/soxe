@@ -6,6 +6,8 @@
 #define MAX_SAMPLES ((size_t) 4096)
 #define MAX_STRING_SIZE 1028
 
+sox_bool always_true(const char*);
+
 sox_bool always_true(const char* str) {
     return sox_true;
 }
