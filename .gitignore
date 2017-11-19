@@ -4,3 +4,5 @@ audio.*
 *.so
 c_src/soxe.d
 _build/
+cobertura.xml
+test/alesis_acoustic_bass.gsm

@@ -4,6 +4,7 @@ SOXE
 [![Build Status](https://img.shields.io/travis/altenwald/soxe/master.svg)](https://travis-ci.org/altenwald/soxe)
 [![Codecov](https://img.shields.io/codecov/c/github/altenwald/soxe.svg)](https://codecov.io/gh/altenwald/soxe)
 [![License: LGPL 2.1](https://img.shields.io/github/license/altenwald/soxe.svg)](https://raw.githubusercontent.com/altenwald/soxe/master/COPYING)
+[![Hex](https://img.shields.io/hexpm/v/soxe.svg)](https://hex.pm/packages/soxe)
 
 Sox Erlang library to (firstly and mainly) convert files between formats. In a very early version this library only do conversions.
 
