@@ -93,7 +93,7 @@ static ERL_NIF_TERM soxe_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 
     duration = (in->signal.length / in->signal.channels) / in->signal.rate;
 
-    return enif_make_tuple8(env,
+    ERL_NIF_TERM result = enif_make_tuple8(env,
         enif_make_atom(env, "soxe_info"),
         enif_make_string(env, filename, ERL_NIF_LATIN1),
         enif_make_int(env, in->signal.rate),
@@ -104,6 +104,14 @@ static ERL_NIF_TERM soxe_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         enif_make_int(env, in->signal.length),
         enif_make_int(env, duration)
     );
+
+    sox_close(in);
+
+    return result;
+}
+
+int upgrade(ErlNifEnv* env, void** priv_data, void** old_priv_data, ERL_NIF_TERM load_info) {
+    return 0;
 }
 
 static ErlNifFunc nif_funcs[] = {
@@ -113,4 +121,4 @@ static ErlNifFunc nif_funcs[] = {
     {"info", 1, soxe_info}
 };
 
-ERL_NIF_INIT(soxe, nif_funcs, NULL, NULL, NULL, NULL)
+ERL_NIF_INIT(soxe, nif_funcs, NULL, NULL, upgrade, NULL)
